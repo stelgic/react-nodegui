@@ -16,6 +16,8 @@ const html = `
 </html> 
 `;
 
+const webStyle = "align-self:'stretch'; margin: 10px; background: #050A11;";
+
 const App = () => {
   return (
     <Window styleSheet={styleSheet}>
@@ -27,7 +29,7 @@ const App = () => {
           <Button text="Click me"></Button>
         </View>
         <View>
-          <WebView channel={channel} html={html} style="align-self:'stretch';"></WebView>
+          <WebView channel={channel} html={html} style={webStyle}></WebView>
         </View>
       </View>
     </Window>
