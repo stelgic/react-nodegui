@@ -5,6 +5,7 @@ export { GridRow } from "./components/GridView/GridRow";
 export { GridColumn } from "./components/GridView/GridColumn";
 export { Slider } from "./components/Slider";
 export { View } from "./components/View";
+export { WebView } from "./components/WebView";
 export { Window } from "./components/Window";
 export { Text } from "./components/Text";
 export { Image } from "./components/Image";
