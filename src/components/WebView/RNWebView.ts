@@ -12,6 +12,7 @@ export interface WebViewProps extends ViewProps<QWebEngineViewSignals> {
   channel?: QWebChannel;
   url?: string;
   html?: string;
+  style?: string;
 }
 
 const setWebViewProps = (
@@ -41,6 +42,9 @@ const setWebViewProps = (
     },
     set html(html: string) {
       webview.setHtml(html);
+    },
+    set style(style: string) {
+      webview.setInlineStyle(style);
     },
   };
   Object.assign(setter, newProps);

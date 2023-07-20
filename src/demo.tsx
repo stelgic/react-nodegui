@@ -27,7 +27,7 @@ const App = () => {
           <Button text="Click me"></Button>
         </View>
         <View>
-          <WebView channel={channel} html={html}></WebView>
+          <WebView channel={channel} html={html} style="align-self:'stretch';"></WebView>
         </View>
       </View>
     </Window>
