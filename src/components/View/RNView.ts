@@ -1,4 +1,4 @@
-import { QWidget, WindowState, QCursor, CursorShape, QIcon, FlexLayout, WidgetEventTypes, QWidgetSignals, QLayout, QObjectSignals } from "@nodegui/nodegui";
+import { QWidget, WindowState, QCursor, CursorShape, QIcon, FlexLayout, WidgetEventTypes, QWidgetSignals, QLayout, QObjectSignals, ContextMenuPolicy } from "@nodegui/nodegui";
 import { NativeRawPointer } from "@nodegui/nodegui/dist/lib/core/Component";
 import { QDialog } from "@nodegui/nodegui/dist/lib/QtWidgets/QDialog";
 import { RNWidget, RNProps } from "../config";
@@ -112,6 +112,11 @@ export interface ViewProps<Signals extends {}> extends RNProps {
    * `<View windowFlags={{[WindowType.SplashScreen]: true}} />`
    */
   windowFlags?: WindowFlagsMap;
+
+  /**
+   * 
+   */
+  menuPolicy?: ContextMenuPolicy;
 }
 
 /**
@@ -207,6 +212,9 @@ export function setViewProps<Signals extends {}>(widget: QWidget<any>, newProps:
         widget.setWindowFlag(Number(flag), value);
       });
     },
+    set menuPolicy(menuPolicy: ContextMenuPolicy) {
+      widget.setContextMenuPolicy(menuPolicy);
+    },
   };
   Object.assign(setter, newProps);
 }
@@ -259,30 +267,30 @@ export class RNView extends QWidget implements RNWidget {
   }
 }
 
-type Geometry = {
+export type Geometry = {
   x: number;
   y: number;
   width: number;
   height: number;
 };
 
-type Size = {
+export type Size = {
   width: number;
   height: number;
 };
-type ViewSize = Size & {
+export type ViewSize = Size & {
   fixed?: boolean;
 };
-type Position = {
+export type Position = {
   x: number;
   y: number;
 };
 
-type WidgetAttributesMap = {
+export type WidgetAttributesMap = {
   [key: number]: boolean;
 };
 
-type WindowFlagsMap = {
+export type WindowFlagsMap = {
   [key: number]: boolean;
 };
 
