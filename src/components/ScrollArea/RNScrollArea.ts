@@ -1,9 +1,11 @@
-import { QScrollArea, QWidget, QScrollAreaSignals, ScrollBarPolicy } from "@nodegui/nodegui";
+import { QScrollArea, QWidget, QScrollAreaSignals, ScrollBarPolicy, QScrollBar } from "@nodegui/nodegui";
 import { ViewProps, setViewProps } from "../View/RNView";
 import { RNWidget } from "../config";
 
 export interface ScrollAreaProps extends ViewProps<QScrollAreaSignals> {
   widgetResizable?: boolean;
+  horizontalScrollBar?: QScrollBar;
+  verticalScrollBar?: QScrollBar;
   horizontalScrollBarPolicy?: ScrollBarPolicy;
   verticalScrollBarPolicy?: ScrollBarPolicy;
 }
@@ -16,6 +18,12 @@ const setScrollAreaProps = (
   const setter: ScrollAreaProps = {
     set widgetResizable(resizable: boolean) {
       widget.setWidgetResizable(resizable);
+    },
+    set horizontalScrollBar(scrollBar: QScrollBar){
+      widget.setHorizontalScrollBar(scrollBar);
+    },
+    set verticalScrollBar(scrollBar: QScrollBar){
+      widget.setVerticalScrollBar(scrollBar);
     },
     set horizontalScrollBarPolicy(policy: ScrollBarPolicy) {
       widget.setHorizontalScrollBarPolicy(policy);
