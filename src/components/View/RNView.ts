@@ -117,6 +117,11 @@ export interface ViewProps<Signals extends {}> extends RNProps {
    * 
    */
   menuPolicy?: ContextMenuPolicy;
+
+  /**
+   * 
+   */
+  layout?: QLayout;
 }
 
 /**
@@ -129,6 +134,9 @@ export function setViewProps<Signals extends {}>(widget: QWidget<any>, newProps:
     },
     set styleSheet(styleSheet: string) {
       widget.setStyleSheet(styleSheet);
+    },
+    set layout(layout: QLayout) {
+      widget.setLayout(layout);
     },
     set style(inlineStyle: string) {
       if (newProps.styleSheet) {
