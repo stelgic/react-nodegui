@@ -1,4 +1,4 @@
-import { QWidget, WindowState, QCursor, CursorShape, QIcon, FlexLayout, WidgetEventTypes, QWidgetSignals, QLayout, QObjectSignals, ContextMenuPolicy } from "@nodegui/nodegui";
+import { QWidget, WindowState, QCursor, CursorShape, QIcon, FlexLayout, WidgetEventTypes, QWidgetSignals, QLayout, QObjectSignals, ContextMenuPolicy, QGridLayout, AlignmentFlag } from "@nodegui/nodegui";
 import { NativeRawPointer } from "@nodegui/nodegui/dist/lib/core/Component";
 import { QDialog } from "@nodegui/nodegui/dist/lib/QtWidgets/QDialog";
 import { RNWidget, RNProps } from "../config";
@@ -122,6 +122,16 @@ export interface ViewProps<Signals extends {}> extends RNProps {
    * 
    */
   layout?: QLayout;
+
+  /**
+   * 
+   */
+  //rows?: number;
+
+  /**
+   * 
+   */
+  cols?: number;
 }
 
 /**
@@ -223,6 +233,12 @@ export function setViewProps<Signals extends {}>(widget: QWidget<any>, newProps:
     set menuPolicy(menuPolicy: ContextMenuPolicy) {
       widget.setContextMenuPolicy(menuPolicy);
     },
+    //set rows(count: number) {
+    //  widget.setProperty("rows", count);
+    //},
+    set cols(count: number) {
+      widget.setProperty("cols", count);
+    }
   };
   Object.assign(setter, newProps);
 }
@@ -232,11 +248,17 @@ export function setViewProps<Signals extends {}>(widget: QWidget<any>, newProps:
  */
 export class RNView extends QWidget implements RNWidget {
   private _layout: QLayout<QObjectSignals> | null = null;
+  private _isGridlayout: boolean = false;
+  private _numChildrens: number = 0;
 
   layout() {
     return this._layout;
   }
   setLayout(layout: QLayout<QObjectSignals>) {
+    if(layout instanceof QGridLayout) {
+      this._isGridlayout = true;
+      console.log("Using QGridLayout");
+    } 
     this._layout = layout;
     super.setLayout(layout);
   }
@@ -263,7 +285,25 @@ export class RNView extends QWidget implements RNWidget {
       flexLayout.setFlexNode(this.getFlexNode());
       this.setLayout(flexLayout);
     }
-    this.layout()!.addWidget(child);
+
+    if(this._isGridlayout) {
+      const cols = this.property("cols").toInt();
+      const grid = this.layout() as QGridLayout;
+      var num = this._numChildrens;
+      const row = Math.floor(num / cols);
+      const col = Math.max(0, (num % cols));
+      this._numChildrens += 1;
+
+      console.log(`Adding child at row=${row} and col=${col} childs=${this._numChildrens}`);
+
+      (this.layout() as QGridLayout)!.addWidget(child, row, col, 1, 1,
+                                              AlignmentFlag.AlignLeft |
+                                              AlignmentFlag.AlignTop);
+                  
+    }
+    else {
+      this.layout()!.addWidget(child);
+    }
   }
   removeChild(child: QWidget<any>) {
     if (!this.layout()) {
@@ -272,6 +312,8 @@ export class RNView extends QWidget implements RNWidget {
     }
     this.layout()!.removeWidget(child);
     child.close();
+    this._numChildrens -= 1;
+    this._numChildrens = Math.max(0, this._numChildrens);
   }
 }
 

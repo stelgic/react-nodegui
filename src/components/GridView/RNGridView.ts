@@ -1,5 +1,5 @@
 import { FunctionComponentElement } from "react";
-import { QGridLayoutSignals, QGridLayout, QWidget, QLayout, QObjectSignals } from "@nodegui/nodegui";
+import { QGridLayoutSignals, QGridLayout, QWidget, QLayout, QObjectSignals, SizeConstraint } from "@nodegui/nodegui";
 import { ViewProps, setViewProps } from "../View/RNView";
 import { RNComponent } from "../config";
 import { RNGridRow, GridRowProps } from "./GridRow/RNGridRow";
@@ -33,6 +33,7 @@ export interface GridViewProps extends ViewProps<QGridLayoutSignals> {
 
   horizontalSpacing?: number;
   verticalSpacing?: number;
+  sizeConstraint?: SizeConstraint;
 }
 
 const setGridViewProps = (
@@ -46,6 +47,9 @@ const setGridViewProps = (
     },
     set verticalSpacing(spacing: number) {
       widget.layout()?.setVerticalSpacing(spacing);
+    },
+    set sizeConstraint (constraint: SizeConstraint) {
+      widget.layout()?.setSizeConstraint(constraint);
     },
     set columnProps(props: GridViewColumnProps) {
       for (const indexString of Object.keys(props)) {
