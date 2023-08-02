@@ -126,7 +126,7 @@ export interface ViewProps<Signals extends {}> extends RNProps {
   /**
    * 
    */
-  //rows?: number;
+  rows?: number;
 
   /**
    * 
@@ -233,9 +233,9 @@ export function setViewProps<Signals extends {}>(widget: QWidget<any>, newProps:
     set menuPolicy(menuPolicy: ContextMenuPolicy) {
       widget.setContextMenuPolicy(menuPolicy);
     },
-    //set rows(count: number) {
-    //  widget.setProperty("rows", count);
-    //},
+    set rows(count: number) {
+      widget.setProperty("rows", count);
+    },
     set cols(count: number) {
       widget.setProperty("cols", count);
     }
@@ -287,14 +287,17 @@ export class RNView extends QWidget implements RNWidget {
 
     if(this._isGridlayout) {
       const cols = this.property("cols").toInt();
+      const rows = this.property("rows").toInt();
       const grid = this.layout() as QGridLayout;
       var num = this._numChildrens;
       const row = Math.floor(num / cols);
       const col = Math.max(0, (num % cols));
       this._numChildrens += 1;
 
-      console.log(`Adding child at row=${row} and col=${col} childs=${this._numChildrens}`);
-
+      if(rows > 0 && row >= rows ) {
+        console.warn(`Max rows count is ${rows}`);
+        return;
+      }
       (this.layout() as QGridLayout)!.addWidget(child, row, col, 1, 1,
                                               AlignmentFlag.AlignLeft |
                                               AlignmentFlag.AlignTop);
