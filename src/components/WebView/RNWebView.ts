@@ -8,10 +8,15 @@ import { setViewProps, ViewProps } from "../View/RNView";
 import { throwUnsupported } from "../../utils/helpers";
 import { RNWidget } from "../config";
 
+export type HtmlSetter = {
+  html: string,
+  baseUrl?: string | undefined
+}
+
 export interface WebViewProps extends ViewProps<QWebEngineViewSignals> {
   channel?: QWebChannel;
   url?: string;
-  html?: string;
+  html?: HtmlSetter;
   style?: string;
   styleSheet?: string;
 }
@@ -24,7 +29,6 @@ const setWebViewProps = (
   const setter: WebViewProps = {
     set channel(channel: QWebChannel) {
       webview.page().setWebChannel(channel);
-      console.log("webchannel was set");
     },
     set url(url: string) {
       webview.load(url);
@@ -41,8 +45,13 @@ const setWebViewProps = (
         page.runJavaScript(js);
       });
     },
-    set html(html: string) {
-      webview.setHtml(html);
+    set html(param: HtmlSetter) {
+      if(param.baseUrl) {
+        webview.setHtml(param.html, param?.baseUrl);
+      }
+      else {
+        webview.setHtml(param.html, null);
+      }
     },
     set style(style: string) {
       webview.setInlineStyle(style);

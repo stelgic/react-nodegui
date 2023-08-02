@@ -29,7 +29,7 @@ const App = () => {
           <Button text="Click me"></Button>
         </View>
         <View>
-          <WebView channel={channel} html={html} style={webStyle}></WebView>
+          <WebView channel={channel} html={{html:html}} style={webStyle}></WebView>
         </View>
       </View>
     </Window>

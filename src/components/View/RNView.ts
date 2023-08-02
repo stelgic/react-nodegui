@@ -257,7 +257,6 @@ export class RNView extends QWidget implements RNWidget {
   setLayout(layout: QLayout<QObjectSignals>) {
     if(layout instanceof QGridLayout) {
       this._isGridlayout = true;
-      console.log("Using QGridLayout");
     } 
     this._layout = layout;
     super.setLayout(layout);
