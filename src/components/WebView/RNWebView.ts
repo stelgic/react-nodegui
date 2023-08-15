@@ -19,6 +19,7 @@ export interface WebViewProps extends ViewProps<QWebEngineViewSignals> {
   html?: HtmlSetter;
   style?: string;
   styleSheet?: string;
+  data?: {}
 }
 
 const setWebViewProps = (
