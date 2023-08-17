@@ -9,6 +9,7 @@ import { RNWidget } from "../config";
 
 export interface WindowProps extends ViewProps<QMainWindowSignals> {
   menuBar?: QMenuBar;
+  menuWidget?: QWidget;
 }
 
 const setWindowProps = (
@@ -19,7 +20,9 @@ const setWindowProps = (
   const setter: WindowProps = {
     set menuBar(menubar: QMenuBar) {
       window.setMenuBar(menubar);
-      console.log("menubar was set");
+    },
+    set menuWidget(menubar: QWidget) {
+      window.setMenuWidget(menubar);
     },
   };
   Object.assign(setter, newProps);
