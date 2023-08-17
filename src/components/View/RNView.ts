@@ -1,4 +1,4 @@
-import { QWidget, WindowState, QCursor, CursorShape, QIcon, FlexLayout, WidgetEventTypes, QWidgetSignals, QLayout, QObjectSignals, ContextMenuPolicy, QGridLayout, AlignmentFlag } from "@nodegui/nodegui";
+import { QWidget, WindowState, QCursor, CursorShape, QIcon, FlexLayout, WidgetEventTypes, QWidgetSignals, QLayout, QObjectSignals, ContextMenuPolicy, QGridLayout, AlignmentFlag, QSizePolicyPolicy } from "@nodegui/nodegui";
 import { NativeRawPointer } from "@nodegui/nodegui/dist/lib/core/Component";
 import { QDialog } from "@nodegui/nodegui/dist/lib/QtWidgets/QDialog";
 import { RNWidget, RNProps } from "../config";
@@ -89,6 +89,10 @@ export interface ViewProps<Signals extends {}> extends RNProps {
    * Sets both the minimum and maximum sizes of the widget. [QWidget: setFixedSize](https://docs.nodegui.org/docs/api/generated/classes/QWidget#widgetsetfixedsizewidth-height)
    */
   size?: ViewSize;
+  /**
+   * 
+   */
+  sizePolicy?: SizePolicy;
   /**
    * Sets the screen position of the widget. [QWidget: move](https://docs.nodegui.org/docs/api/generated/classes/QWidget#widgetmovex-y)
    */
@@ -233,6 +237,9 @@ export function setViewProps<Signals extends {}>(widget: QWidget<any>, newProps:
     set menuPolicy(menuPolicy: ContextMenuPolicy) {
       widget.setContextMenuPolicy(menuPolicy);
     },
+    set sizePolicy(policy: SizePolicy) {
+      widget.setSizePolicy(policy.horizontal, policy.vertical);
+    },
     set rows(count: number) {
       widget.setProperty("rows", count);
     },
@@ -348,4 +355,9 @@ export type WindowFlagsMap = {
 
 export type WidgetEventListeners = {
   [key in WidgetEventTypes]: (event?: NativeRawPointer<"QEvent">) => void;
+};
+
+export type SizePolicy = {
+  horizontal: QSizePolicyPolicy;
+  vertical: QSizePolicyPolicy;
 };
