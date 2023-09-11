@@ -12,6 +12,7 @@ import { QDialog } from "@nodegui/nodegui/dist/lib/QtWidgets/QDialog";
 
 export interface BoxViewProps extends ViewProps<QBoxLayoutSignals> {
   direction?: Direction;
+  spacing?: number;
 }
 
 const setBoxViewProps = (
@@ -23,6 +24,9 @@ const setBoxViewProps = (
     set direction(direction: Direction) {
       widget.layout()?.setDirection(direction);
     },
+    set spacing(value: number) {
+      widget.layout()?.setSpacing(value);
+    }
   };
   Object.assign(setter, newProps);
   setViewProps(widget, newProps, oldProps);
