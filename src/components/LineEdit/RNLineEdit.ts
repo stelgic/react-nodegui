@@ -58,7 +58,7 @@ const setLineEditProps = (
     },
     set inputMask(mask: string) {
       widget.setInputMask(mask);
-    }
+    },
     set acceptType(vtype: string) {
       widget.acceptType(vtype);
     }
