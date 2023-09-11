@@ -35,6 +35,7 @@ export interface LineEditProps extends ViewProps<QLineEditSignals> {
   readOnly?: boolean;
   echoMode?: EchoMode;
   inputMask?: string;
+  acceptType?: string;
 }
 
 const setLineEditProps = (
@@ -57,6 +58,9 @@ const setLineEditProps = (
     },
     set inputMask(mask: string) {
       widget.setInputMask(mask);
+    }
+    set acceptType(vtype: string) {
+      widget.acceptType(vtype);
     }
   };
   Object.assign(setter, newProps);
