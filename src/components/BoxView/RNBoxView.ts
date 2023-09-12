@@ -10,9 +10,17 @@ import { ViewProps, setViewProps } from "../View/RNView";
 import { RNComponent } from "../config";
 import { QDialog } from "@nodegui/nodegui/dist/lib/QtWidgets/QDialog";
 
+export type Margins = {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+};
+
 export interface BoxViewProps extends ViewProps<QBoxLayoutSignals> {
   direction?: Direction;
   spacing?: number;
+  margins?: Margins;
 }
 
 const setBoxViewProps = (
@@ -26,6 +34,9 @@ const setBoxViewProps = (
     },
     set spacing(value: number) {
       widget.layout()?.setSpacing(value);
+    },
+    set margins(margin: Margins) {
+      widget.layout()?.setContentsMargins(margin.left, margin.top, margin.right, margin.bottom);
     }
   };
   Object.assign(setter, newProps);
@@ -109,3 +120,4 @@ export class RNBoxView extends QWidget implements RNComponent {
   }
   static tagName: string = "boxview";
 }
+
