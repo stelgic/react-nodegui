@@ -17,9 +17,16 @@ export type Margins = {
   bottom: number;
 };
 
+export type Stretch = {
+  index: number;
+  value?: number|undefined;
+};
+
 export interface BoxViewProps extends ViewProps<QBoxLayoutSignals> {
   direction?: Direction;
   spacing?: number;
+  stretch?: number | undefined;
+  insertStretch?: Stretch;
   margins?: Margins;
 }
 
@@ -34,6 +41,12 @@ const setBoxViewProps = (
     },
     set spacing(value: number) {
       widget.layout()?.setSpacing(value);
+    },
+    set stretch(value: number) {
+      widget.layout()?.addStretch(value);
+    },
+    set insertStretch(stretch: Stretch) {
+      widget.layout()?.insertStretch(stretch.index, stretch.value)
     },
     set margins(margin: Margins) {
       widget.layout()?.setContentsMargins(margin.left, margin.top, margin.right, margin.bottom);
