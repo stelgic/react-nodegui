@@ -8,7 +8,7 @@ import {
   QBoxLayout,
   QGridLayout
 } from "@nodegui/nodegui";
-import { setViewProps, ViewProps } from "../View/RNView";
+import { setViewProps, ViewProps, SizePolicy } from "../View/RNView";
 import { throwUnsupported } from "../../utils/helpers";
 import { RNWidget } from "../config";
 
@@ -18,6 +18,7 @@ export type Stretch = {
 }
 
 export interface SplitterProps extends ViewProps<QSplitterSignals> {
+  sizePolicy?: SizePolicy;
   orientation?: Orientation;
   layout?: QLayout | QBoxLayout | QGridLayout;
 }
@@ -34,6 +35,9 @@ const setSplitterProps = (
     set layout(layout: QLayout | QBoxLayout | QGridLayout) {
       widget.setLayout(layout);
     },
+    set sizePolicy(policy: SizePolicy) {
+      widget.setSizePolicy(policy.horizontal, policy.vertical);
+    }
   };
   Object.assign(setter, newProps);
   setViewProps(widget, newProps, oldProps);
