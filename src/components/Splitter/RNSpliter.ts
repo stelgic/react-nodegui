@@ -70,7 +70,14 @@ export class RNSplitter extends QSplitter implements RNWidget {
     setSplitterProps(this, newProps, oldProps);
   }
   removeChild(child: QWidget<any>) {
-    throwUnsupported(this);
+    if (!this.layout()) {
+      console.warn("parent has no layout to remove child from");
+      return;
+    }
+    this.layout()!.removeWidget(child);
+    child.close();
+    this._numChildrens -= 1;
+    this._numChildrens = Math.max(0, this._numChildrens);
   }
   appendInitialChild(child: QWidget<any>): void {
     if (child instanceof QWidget) {
